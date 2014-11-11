@@ -1,0 +1,23 @@
+Client Code Generation
+DomainService and DomainContext
+
+One class that derives from DomainContext is generated for each domain service class according to the following rules:
+
+    The domain context class is generated with same namespace as the domain service.
+
+    The domain context class contains three constructors:
+
+        A default constructor that embeds the URI necessary to communicate with the domain service over http using a WebDomainClient<TContract> class.
+
+        A constructor that permits the client to specify an alternate URI.
+
+        A constructor that permits the client to provide a custom DomainClient implementation (typically used for unit testing or redirection to a custom transport layer).
+
+    For each query method in the domain service class, generate an EntityQuery<TEntity> method that can be used in the client project to load entities.
+
+    For each invoke operation, generate a corresponding InvokeOperation method that can be used to invoke that operation asynchronously.
+
+    For each method marked the Update(UsingCustomMethod=true) attribute, generate methods to invoke it and to determine whether it has been invoked.
+
+    Public methods in the domain service that perform inserts, updates, or deletes cause the generated EntityContainer in the domain context to be constructed with an EntitySetOperations flag that indicates which of operations are permitted on the client.
+
